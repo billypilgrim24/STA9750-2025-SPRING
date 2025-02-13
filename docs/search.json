@@ -2,8 +2,43 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "HOMEPAGE",
+    "title": "About Me",
     "section": "",
-    "text": "My name is Charles Wojcik. I am a student at Baruch\n\nLast Updated: Thursday 02 13, 2025 at 04:05AM"
+    "text": "My name is Charles Wojcik. I am currently pursuing an MS in Business Analytics at Baruch College’s Zicklin School of Business, with a focus in Data Analytics (Expected: May 2025)."
+  },
+  {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "About Me",
+    "section": "",
+    "text": "My name is Charles Wojcik. I am currently pursuing an MS in Business Analytics at Baruch College’s Zicklin School of Business, with a focus in Data Analytics (Expected: May 2025)."
+  },
+  {
+    "objectID": "index.html#professional-background",
+    "href": "index.html#professional-background",
+    "title": "About Me",
+    "section": "Professional Background",
+    "text": "Professional Background\nI bring a unique blend of experience spanning data analytics, media production, and military intelligence:\n\nI currently work as a full-time day trader.\nPrevious experience includes televisionproduction work at The Problem with Jon Stewart and was a Page in NBCUniversal’s East Coast Page Program\nServed as an Intelligence Specialist in the United States Marine Corps, where I deployed to Afghanistan twice"
+  },
+  {
+    "objectID": "index.html#technical-skills",
+    "href": "index.html#technical-skills",
+    "title": "About Me",
+    "section": "Technical Skills",
+    "text": "Technical Skills\n\nProgramming: Python, R\nData Visualization: Tableau\nData Analysis: Excel, Database Management\nOther Skills: Technical Analysis, Public Speaking, Content Writing"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "About Me",
+    "section": "Education",
+    "text": "Education\n\nMS Business Analytics (In Progress) - Baruch College\nMA English Education - New York University\nBA Creative Writing - Columbia University"
+  },
+  {
+    "objectID": "index.html#personal-interests",
+    "href": "index.html#personal-interests",
+    "title": "About Me",
+    "section": "Personal Interests",
+    "text": "Personal Interests\nWhen I’m not working with data, you might find me: - At a New York Yankees game (proudly caught a home run ball in 2004!) - Cheering for the New York Jets as a season ticket holder - Recreating recipes from the Bon Appétit YouTube channel - Practicing mixology - Maintaining my daily journaling practice\n\nLast Updated: Thursday 02 13, 2025 at 04:13AM"
   }
 ]
