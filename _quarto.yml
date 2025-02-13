@@ -13,7 +13,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: "Charles_Wojcik_Resume.pdf"
+      - href: "docs/Charles_Wojcik_Resume.pdf"
         text: Resume
 
 format:
