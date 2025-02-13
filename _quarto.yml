@@ -10,7 +10,12 @@ website:
   navbar:
     background: primary
     search: false
-    
+    left:
+      - href: index.qmd
+        text: Home
+      - href: "Charles%20Wojcik.pdf"
+        text: Resume
+
 format:
   html:
     theme: darkly
