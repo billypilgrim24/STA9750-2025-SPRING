@@ -2,6 +2,8 @@
 title: "HOMEPAGE"
 ---
 
+My name is Charles Wojcik. I am a student at Baruch
+
 ```{r}
 #| include: false
 1+1
