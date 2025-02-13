@@ -4,7 +4,6 @@ title: "HOMEPAGE"
 
 My name is Charles Wojcik. I am a student at Baruch
 
-[Download My Resume](Charles_Wojcik_Resume.pdf)
 
 ```{r}
 #| include: false
