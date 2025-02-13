@@ -1,8 +1,38 @@
 ---
-title: "HOMEPAGE"
+title: "About Me"
 ---
 
-My name is Charles Wojcik. I am a student at Baruch
+## Welcome!
+
+My name is Charles Wojcik. I am currently pursuing an MS in Business Analytics at Baruch College's Zicklin School of Business, with a focus in Data Analytics (Expected: May 2025).
+
+## Professional Background
+
+I bring a unique blend of experience spanning data analytics, media production, and military intelligence:
+
+- I currently work as a full-time day trader.
+- Previous experience includes televisionproduction work at The Problem with Jon Stewart 
+  and was a Page in NBCUniversal's East Coast Page Program
+- Served as an Intelligence Specialist in the United States Marine Corps, where I deployed to Afghanistan twice
+
+## Technical Skills
+- Programming: Python, R
+- Data Visualization: Tableau
+- Data Analysis: Excel, Database Management
+- Other Skills: Technical Analysis, Public Speaking, Content Writing
+
+## Education
+- MS Business Analytics (In Progress) - Baruch College
+- MA English Education - New York University
+- BA Creative Writing - Columbia University
+
+## Personal Interests
+When I'm not working with data, you might find me:
+- At a New York Yankees game (proudly caught a home run ball in 2004!)
+- Cheering for the New York Jets as a season ticket holder
+- Recreating recipes from the Bon Appétit YouTube channel
+- Practicing mixology
+- Maintaining my daily journaling practice
 
 
 ```{r}
