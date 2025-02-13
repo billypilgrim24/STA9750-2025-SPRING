@@ -40,4 +40,4 @@ When I'm not working with data, you might find me:
 1+1
 ```
 --------------
-Last Updated: `r format(Sys.time(), "%A %m %d, %Y at %H:%M%p")`
+Last Updated: `r format(Sys.time(), "%B %d, %Y")`
