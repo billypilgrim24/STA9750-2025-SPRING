@@ -1,0 +1,113 @@
+---
+title: "Analysis of NYC Payroll Policies"
+author: "CATS Commission"
+format: 
+  html:
+    code-fold: true
+    self-contained: true
+editor: visual
+---
+
+# Load necessary libraries
+library(readr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(scales)
+
+# Read and prepare the data
+nyc_data <- read_csv("nyc_payroll_export.csv", show_col_types = FALSE) %>%
+  mutate(
+    agency_name = str_to_title(agency_name),
+    last_name = str_to_title(last_name),
+    first_name = str_to_title(first_name),
+    work_location_borough = str_to_title(work_location_borough),
+    title_description = str_to_title(title_description),
+    leave_status_as_of_june_30 = str_to_title(leave_status_as_of_june_30)
+  )
+
+# Compute Total Compensation 
+nyc_data <- nyc_data %>%
+  mutate(
+    Total_Compensation = case_when(
+      str_detect(title_description, regex("Mayor", ignore_case = TRUE)) ~ base_salary,
+      pay_basis == "HOURLY" & regular_hours > 0 ~ regular_gross_paid + 
+        (1.5 * (regular_gross_paid / regular_hours) * ot_hours),
+      pay_basis == "DAILY" ~ base_salary * (regular_hours / 7.5),
+      TRUE ~ NA_real_
+    )
+  )
+
+# Analysis I: Capping Salaries at Mayoral Level
+mayor_pay <- nyc_data %>%
+  filter(str_detect(title_description, regex("Mayor", ignore_case = TRUE))) %>%
+  group_by(fiscal_year) %>%
+  summarise(mayor_salary = sum(base_salary))
+
+overpaid_employees <- nyc_data %>%
+  left_join(mayor_pay, by = "fiscal_year") %>%
+  filter(Total_Compensation > mayor_salary)
+
+savings <- overpaid_employees %>%
+  mutate(savings = Total_Compensation - mayor_salary) %>%
+  summarise(total_savings = sum(savings))
+
+# Analysis II: Increasing Staffing to Reduce Overtime 
+overtime_savings <- nyc_data %>%
+  group_by(agency_name, title_description) %>%
+  summarise(
+    total_ot_hours = sum(ot_hours, na.rm = TRUE),
+    total_ot_paid = sum(total_ot_paid, na.rm = TRUE),
+    avg_hourly_rate = mean(regular_gross_paid / regular_hours, na.rm = TRUE)
+  ) %>%
+  mutate(
+    new_employees_needed = ceiling(total_ot_hours / 2000),
+    potential_savings = total_ot_paid - (total_ot_hours * avg_hourly_rate)
+  )
+
+agency_savings <- overtime_savings %>%
+  group_by(agency_name) %>%
+  summarise(
+    total_new_employees = sum(new_employees_needed), 
+    total_savings = sum(potential_savings)
+  )
+
+# Analysis III: Attrition-Based Reduction
+attrition_rate <- nyc_data %>%
+  group_by(fiscal_year) %>%
+  summarise(
+    total_employees = n_distinct(payroll_number),
+    employees_left = sum(leave_status_as_of_june_30 == "Ceased")
+  ) %>%
+  mutate(attrition_rate = employees_left / total_employees)
+
+payroll_reduction <- nyc_data %>%
+  group_by(fiscal_year) %>%
+  summarise(total_payroll = sum(base_salary + total_ot_paid, na.rm = TRUE)) %>%
+  left_join(attrition_rate, by = "fiscal_year") %>%
+  mutate(projected_payroll = total_payroll * (1 - attrition_rate))
+
+# Visualizations
+agency_savings %>%
+  arrange(desc(total_savings)) %>%
+  head(10) %>%
+  mutate(agency_name = fct_reorder(agency_name, total_savings)) %>%
+  ggplot(aes(x = total_savings, y = agency_name)) +
+  geom_col() +
+  scale_x_continuous(labels = label_dollar()) +
+  labs(
+    title = "Top 10 Agencies by Potential Overtime Savings",
+    x = "Potential Savings", 
+    y = "Agency"
+  )
+
+payroll_reduction %>%
+  ggplot(aes(x = fiscal_year, y = total_payroll)) +
+  geom_line() +
+  geom_line(aes(y = projected_payroll), linetype = "dashed") +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(
+    title = "Projected NYC Payroll with Attrition Freeze",
+    x = "Fiscal Year",
+    y = "Total Payroll"
+  )
