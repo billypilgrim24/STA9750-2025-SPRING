@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="CATS Commission">
+<meta name="author" content="Charles A. Wojcik “CATS Commission”">
 
 <title>Analysis of NYC Payroll Policies – STA 9750 Submission Material</title>
 <style>
@@ -95,6 +95,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../assets/Charles_Wojcik_Resume.pdf"> 
 <span class="menu-text">Resume</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../mp01.qmd"> 
+<span class="menu-text">MP01</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -122,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>CATS Commission </p>
+             <p>Charles A. Wojcik “CATS Commission” </p>
           </div>
   </div>
     
@@ -135,41 +139,30 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="load-necessary-libraries" class="level1">
-<h1>Load necessary libraries</h1>
+<p>Policy I: Capping Salaries at the Mayoral Level As of 2024, the Mayor of New York City earns an annual salary of $258,750. Implementing a policy to cap all municipal salaries at this level would primarily impact high-earning positions within the city’s workforce. For instance, the Chancellor of New York City schools, Melissa Aviles-Ramos, receives an annual salary of $414,799, surpassing the mayor’s earnings. While this policy could result in significant savings, it may also hinder the city’s ability to attract and retain top talent for critical leadership roles.</p>
+<p>Policy II: Increasing Staffing to Reduce Overtime In fiscal year 2022, New York City’s uniformed agencies, including the NYPD, FDNY, Department of Correction, and Department of Sanitation, collectively spent a record $1.8 billion on overtime. Specifically, the NYPD’s overtime expenditure reached $762 million in that fiscal year. By increasing staffing levels in these agencies, the city could potentially reduce overtime costs. However, considerations include the feasibility of recruiting for specialized positions and the additional costs associated with hiring and training new personnel.</p>
+<p>Policy III: Hiring Freeze and Attrition-Based Reduction Implementing a hiring freeze and relying on natural attrition could lead to payroll reductions over time. However, this approach carries risks, such as impairing service delivery if critical positions remain unfilled and potentially increasing overtime costs to compensate for understaffing. For example, in fiscal year 2024, the Department of Correction faced significant overtime expenses, with some officials earning substantial amounts through extensive overtime hours. Therefore, while cost savings are possible, careful consideration is needed to balance financial objectives with the necessity of maintaining essential public services. In conclusion, while each policy offers potential cost-saving benefits, a balanced approach that combines targeted salary caps with strategic staffing adjustments may optimize savings while minimizing adverse effects on service delivery and talent retention.</p>
+<p>Load necessary libraries</p>
 <p>library(readr) library(dplyr) library(stringr) library(ggplot2) library(scales)</p>
-</section>
-<section id="read-and-prepare-the-data" class="level1">
-<h1>Read and prepare the data</h1>
+<p>Read and prepare the data</p>
 <p>nyc_data &lt;- read_csv(“nyc_payroll_export.csv”, show_col_types = FALSE) %&gt;% mutate( agency_name = str_to_title(agency_name), last_name = str_to_title(last_name), first_name = str_to_title(first_name), work_location_borough = str_to_title(work_location_borough), title_description = str_to_title(title_description), leave_status_as_of_june_30 = str_to_title(leave_status_as_of_june_30) )</p>
-</section>
-<section id="compute-total-compensation" class="level1">
-<h1>Compute Total Compensation</h1>
+<p>Compute Total Compensation</p>
 <p>nyc_data &lt;- nyc_data %&gt;% mutate( Total_Compensation = case_when( str_detect(title_description, regex(“Mayor”, ignore_case = TRUE)) ~ base_salary, pay_basis == “HOURLY” &amp; regular_hours &gt; 0 ~ regular_gross_paid + (1.5 * (regular_gross_paid / regular_hours) * ot_hours), pay_basis == “DAILY” ~ base_salary * (regular_hours / 7.5), TRUE ~ NA_real_ ) )</p>
-</section>
-<section id="analysis-i-capping-salaries-at-mayoral-level" class="level1">
-<h1>Analysis I: Capping Salaries at Mayoral Level</h1>
+<p>Analysis I: Capping Salaries at Mayoral Level</p>
 <p>mayor_pay &lt;- nyc_data %&gt;% filter(str_detect(title_description, regex(“Mayor”, ignore_case = TRUE))) %&gt;% group_by(fiscal_year) %&gt;% summarise(mayor_salary = sum(base_salary))</p>
 <p>overpaid_employees &lt;- nyc_data %&gt;% left_join(mayor_pay, by = “fiscal_year”) %&gt;% filter(Total_Compensation &gt; mayor_salary)</p>
 <p>savings &lt;- overpaid_employees %&gt;% mutate(savings = Total_Compensation - mayor_salary) %&gt;% summarise(total_savings = sum(savings))</p>
-</section>
-<section id="analysis-ii-increasing-staffing-to-reduce-overtime" class="level1">
-<h1>Analysis II: Increasing Staffing to Reduce Overtime</h1>
+<p>Analysis II: Increasing Staffing to Reduce Overtime</p>
 <p>overtime_savings &lt;- nyc_data %&gt;% group_by(agency_name, title_description) %&gt;% summarise( total_ot_hours = sum(ot_hours, na.rm = TRUE), total_ot_paid = sum(total_ot_paid, na.rm = TRUE), avg_hourly_rate = mean(regular_gross_paid / regular_hours, na.rm = TRUE) ) %&gt;% mutate( new_employees_needed = ceiling(total_ot_hours / 2000), potential_savings = total_ot_paid - (total_ot_hours * avg_hourly_rate) )</p>
 <p>agency_savings &lt;- overtime_savings %&gt;% group_by(agency_name) %&gt;% summarise( total_new_employees = sum(new_employees_needed), total_savings = sum(potential_savings) )</p>
-</section>
-<section id="analysis-iii-attrition-based-reduction" class="level1">
-<h1>Analysis III: Attrition-Based Reduction</h1>
+<p>Analysis III: Attrition-Based Reduction</p>
 <p>attrition_rate &lt;- nyc_data %&gt;% group_by(fiscal_year) %&gt;% summarise( total_employees = n_distinct(payroll_number), employees_left = sum(leave_status_as_of_june_30 == “Ceased”) ) %&gt;% mutate(attrition_rate = employees_left / total_employees)</p>
 <p>payroll_reduction &lt;- nyc_data %&gt;% group_by(fiscal_year) %&gt;% summarise(total_payroll = sum(base_salary + total_ot_paid, na.rm = TRUE)) %&gt;% left_join(attrition_rate, by = “fiscal_year”) %&gt;% mutate(projected_payroll = total_payroll * (1 - attrition_rate))</p>
-</section>
-<section id="visualizations" class="level1">
-<h1>Visualizations</h1>
+<p>Visualizations</p>
 <p>agency_savings %&gt;% arrange(desc(total_savings)) %&gt;% head(10) %&gt;% mutate(agency_name = fct_reorder(agency_name, total_savings)) %&gt;% ggplot(aes(x = total_savings, y = agency_name)) + geom_col() + scale_x_continuous(labels = label_dollar()) + labs( title = “Top 10 Agencies by Potential Overtime Savings”, x = “Potential Savings”, y = “Agency” )</p>
 <p>payroll_reduction %&gt;% ggplot(aes(x = fiscal_year, y = total_payroll)) + geom_line() + geom_line(aes(y = projected_payroll), linetype = “dashed”) + scale_y_continuous(labels = label_dollar()) + labs( title = “Projected NYC Payroll with Attrition Freeze”, x = “Fiscal Year”, y = “Total Payroll” )</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
