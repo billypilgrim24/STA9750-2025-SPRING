@@ -1,7 +1,21 @@
 ---
 title: "Analysis of NYC Payroll Policies"
-author: "CATS Commission"
+author: Charles A. Wojcik "CATS Commission"
 ---
+
+Policy I: Capping Salaries at the Mayoral Level
+As of 2024, the Mayor of New York City earns an annual salary of $258,750. Implementing a policy to cap all municipal salaries at this level would primarily impact high-earning positions within the city's workforce. For instance, the Chancellor of New York City schools, Melissa Aviles-Ramos, receives an annual salary of $414,799, surpassing the mayor's earnings. While this policy could result in significant savings, it may also hinder the city's ability to attract and retain top talent for critical leadership roles.
+
+Policy II: Increasing Staffing to Reduce Overtime
+In fiscal year 2022, New York City's uniformed agencies, including the NYPD, FDNY, Department of Correction, and Department of Sanitation, collectively spent a record $1.8 billion on overtime. 
+Specifically, the NYPD's overtime expenditure reached $762 million in that fiscal year. 
+By increasing staffing levels in these agencies, the city could potentially reduce overtime costs. However, considerations include the feasibility of recruiting for specialized positions and the additional costs associated with hiring and training new personnel.
+
+Policy III: Hiring Freeze and Attrition-Based Reduction
+Implementing a hiring freeze and relying on natural attrition could lead to payroll reductions over time. However, this approach carries risks, such as impairing service delivery if critical positions remain unfilled and potentially increasing overtime costs to compensate for understaffing. For example, in fiscal year 2024, the Department of Correction faced significant overtime expenses, with some officials earning substantial amounts through extensive overtime hours. 
+Therefore, while cost savings are possible, careful consideration is needed to balance financial objectives with the necessity of maintaining essential public services.
+In conclusion, while each policy offers potential cost-saving benefits, a balanced approach that combines targeted salary caps with strategic staffing adjustments may optimize savings while minimizing adverse effects on service delivery and talent retention.
+
 
 # Load necessary libraries
 library(readr)
