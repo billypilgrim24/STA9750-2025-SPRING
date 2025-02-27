@@ -1,11 +1,6 @@
 ---
 title: "Analysis of NYC Payroll Policies"
 author: "CATS Commission"
-format: 
-  html:
-    code-fold: true
-    self-contained: true
-editor: visual
 ---
 
 # Load necessary libraries
